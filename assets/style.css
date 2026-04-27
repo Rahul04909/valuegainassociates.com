@@ -1,0 +1,214 @@
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #24b64a;
+    --secondary-color: #1a2b48;
+    --accent-color: #ff9800;
+    --text-main: #2d3436;
+    --text-light: #636e72;
+    --white: #ffffff;
+    --bg-soft: #f8fafc;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-soft);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Header Top Bar */
+.header-top {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 6px 0;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.header-top .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-left, .top-right {
+    display: flex;
+    gap: 25px;
+}
+
+.top-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.9;
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+}
+
+.top-info:hover {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+/* Main Header */
+.main-header {
+    background-color: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.main-header.scrolled {
+    padding: 10px 0;
+    box-shadow: var(--shadow-md);
+}
+
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.logo-area img {
+    height: 80px;
+    width: auto;
+    transition: var(--transition);
+}
+
+.logo-area img:hover {
+    transform: scale(1.05);
+}
+
+/* Navigation Menu */
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+.nav-menu ul li {
+    position: relative;
+}
+
+.nav-menu ul li a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 17px;
+    padding: 10px 0;
+    transition: var(--transition);
+    display: block;
+}
+
+.nav-menu ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.nav-menu ul li a:hover {
+    color: var(--primary-color);
+}
+
+.nav-menu ul li a:hover::after {
+    width: 100%;
+}
+
+/* Header Action */
+.header-action .enquiry-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e8e3e 100%);
+    color: var(--white);
+    padding: 14px 35px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 25px rgba(36, 182, 74, 0.25);
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.header-action .enquiry-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(36, 182, 74, 0.3);
+}
+
+.header-action .enquiry-btn i {
+    font-size: 18px;
+}
+
+/* Responsive Menu Icon (Simple for now) */
+.mobile-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .header-top { display: none; }
+    .nav-menu { 
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--white);
+        z-index: 1001;
+        display: block;
+        padding: 80px 30px;
+        transition: var(--transition);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .mobile-toggle { 
+        display: block; 
+        z-index: 1002;
+    }
+    
+    .logo-area img {
+        height: 60px;
+    }
+}
+
+
