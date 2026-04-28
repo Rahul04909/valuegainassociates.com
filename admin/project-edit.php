@@ -217,7 +217,8 @@ include 'header.php';
             </div>
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
-        <link rel="stylesheet" href="../vendor/summernote/summernote/dist/summernote-bs4.css">
+        <!-- Summernote Lite CSS (Standalone) -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
         <form action="" method="POST" enctype="multipart/form-data">
             
             <h4 class="mb-3 text-primary border-bottom pb-2">1. Basic Information</h4>
@@ -433,12 +434,22 @@ include 'header.php';
     </div>
 </div>
 
-<script src="../vendor/summernote/summernote/dist/summernote-bs4.min.js"></script>
+<!-- Summernote Lite JS (Standalone) -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#summernote').summernote({
         height: 300,
-        placeholder: 'Write project overview here...'
+        placeholder: 'Write project overview here...',
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
     });
 
     // Dynamic Amenities
