@@ -369,34 +369,25 @@ $active_page = $active_pageInfo['active_page'] ?? null;
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <div class="nav-link">
-                        <i class="fas fa-th-large"></i>
+                    <div class="nav-link" data-widget="pushmenu" role="button">
+                        <i class="fas fa-bars"></i>
                     </div>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="./" class="nav-link">Home</a>
                 </li>
             </ul>
-            <form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" name="search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+            
+            <style>
+                @keyframes blinker {
+                    50% { opacity: 0; }
+                }
+            </style>
+            <h4 class="mb-0 mx-auto" style="color: var(--primary-green); font-weight: 700; animation: blinker 1.5s linear infinite; letter-spacing: 1px;">
+                Welcome to Admin Dashboard
+            </h4>
+            
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#messages">
-                        <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">2</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown"><a class="nav-link" href="#notifications">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">5</span>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php" style="color: #dc3545; font-weight: bold;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
                 </li>
             </ul>
@@ -422,17 +413,17 @@ $active_page = $active_pageInfo['active_page'] ?? null;
         </div>
 
         <aside class="main-sidebar sidebar-light-primary elevation-4">
-            <a href="./" class="brand-link">
-                <img src="./src/images/prayag-computer-logo.png" alt="Logo" class="brand-image img-circle bg-white">
+            <a href="./" class="brand-link" style="background-color: #fff !important; text-align: center; display: block;">
+                <img src="../assets/logo.png" alt="Valugain Logo" class="brand-image" style="max-height: 50px; background: none; border-radius: 0; margin-left: auto !important; margin-right: auto !important; float: none;">
             </a>
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3">
-                    <a href="./profile.php" class="d-flex">
+                    <a href="./profile.php" class="d-flex" style="align-items: center;">
                         <div class="image">
-                            <img src="./src/images/user-avtar.png" class="img-circle elevation-2 bg-white" alt="User Image">
+                            <img src="../assets/images/<?php echo $_SESSION['admin_profile'] ?? 'default.png'; ?>" class="img-circle elevation-2 bg-white" alt="User Image" onerror="this.src='https://ui-avatars.com/api/?name=<?php echo urlencode($_SESSION['admin_name'] ?? 'Admin'); ?>&background=28a745&color=fff'">
                         </div>
-                        <div class="info">
-                            Rahul
+                        <div class="info" style="color: #2c3e50; font-weight: bold;">
+                            <?php echo $_SESSION['admin_name'] ?? 'Admin'; ?>
                         </div>
                     </a>
                 </div>
