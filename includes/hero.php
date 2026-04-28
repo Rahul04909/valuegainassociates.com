@@ -4,7 +4,7 @@
         <div class="swiper-wrapper">
             <!-- Slide 1 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/slide1.png');"></div>
+                <div class="slide-bg" style="background-image: url('assets/images/hero-real.jpeg');"></div>
             </div>
             <!-- Slide 2 -->
             <div class="swiper-slide">
