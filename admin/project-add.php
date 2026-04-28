@@ -63,6 +63,7 @@ include 'header.php';
         <h3 class="card-title">Add New Project</h3>
     </div>
     <div class="card-body">
+        <link rel="stylesheet" href="../vendor/summernote/summernote/dist/summernote-bs4.css">
         <form action="" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -103,7 +104,7 @@ include 'header.php';
                 </div>
                 <div class="col-md-12 mb-3">
                     <label>Project Overview / Description</label>
-                    <textarea name="description" class="form-control" rows="5"></textarea>
+                    <textarea name="description" id="summernote" class="form-control" rows="5"></textarea>
                 </div>
                 <div class="col-md-12 mb-3">
                     <label>Amenities (Comma separated)</label>
@@ -112,10 +113,12 @@ include 'header.php';
                 <div class="col-md-6 mb-3">
                     <label>Main Hero Image</label>
                     <input type="file" name="main_image" class="form-control" accept="image/*" required>
+                    <div id="main-preview"></div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Gallery Images (Select multiple)</label>
                     <input type="file" name="gallery[]" class="form-control" accept="image/*" multiple>
+                    <div id="gallery-preview" class="d-flex flex-wrap"></div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save Project</button>
@@ -123,5 +126,41 @@ include 'header.php';
         </form>
     </div>
 </div>
+
+<script src="../vendor/summernote/summernote/dist/summernote-bs4.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#summernote').summernote({
+        height: 300,
+        placeholder: 'Write project overview here...'
+    });
+
+    // Main Image Preview
+    $('input[name="main_image"]').on('change', function() {
+        $('#main-preview').html('');
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#main-preview').html('<img src="'+e.target.result+'" style="height:150px; border-radius:5px; margin-top:10px; object-fit:cover;">');
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    // Gallery Preview
+    $('input[name="gallery[]"]').on('change', function() {
+        $('#gallery-preview').html('');
+        if (this.files) {
+            Array.from(this.files).forEach(file => {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#gallery-preview').append('<img src="'+e.target.result+'" style="height:100px; width:100px; border-radius:5px; margin-top:10px; margin-right:10px; object-fit:cover;">');
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+    });
+});
+</script>
 
 <?php include 'footer.php'; ?>
