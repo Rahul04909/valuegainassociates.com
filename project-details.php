@@ -1,27 +1,11 @@
 <?php include 'includes/header.php'; ?>
 
 <!-- Project Details Hero -->
-<div class="pd-hero">
+<div class="pd-hero" style="height: 40vh; min-height: 300px; margin-bottom: 30px;">
     <div class="pd-hero-bg">
         <img src="assets/images/prop1.png" alt="Emerald Luxury Villa">
     </div>
-    <div class="pd-hero-overlay"></div>
-    <div class="container pd-hero-content">
-        <div class="pd-hero-left">
-            <div class="pd-badge">Under Construction</div>
-            <h1 class="pd-title">Emerald Luxury Villa</h1>
-            <p class="pd-location"><i class="fas fa-map-marker-alt"></i> Pali Hill, Mumbai</p>
-        </div>
-        <div class="pd-hero-right">
-            <div class="pd-price-wrap">
-                <span class="pd-price">₹4.5 Cr*</span>
-                <span class="pd-price-label" style="color: #f1f1f1;">Starting Price</span>
-            </div>
-            <a href="#" class="btn-download-brochure">
-                <i class="fas fa-file-download"></i> Download Brochure
-            </a>
-        </div>
-    </div>
+    <div class="pd-hero-overlay" style="background: rgba(10, 25, 47, 0.4);"></div>
 </div>
 
 <div class="pd-main-section">
@@ -54,6 +38,24 @@
                         <i class="fas fa-key"></i>
                         <span>Possession</span>
                         <strong>Dec 2026</strong>
+                    </div>
+                </div>
+
+                <!-- Project Header Info -->
+                <div class="pd-header-info">
+                    <div class="pd-header-left">
+                        <div class="pd-badge-dark">Under Construction</div>
+                        <h1 class="pd-title-dark">Emerald Luxury Villa</h1>
+                        <p class="pd-location-dark"><i class="fas fa-map-marker-alt"></i> Pali Hill, Mumbai</p>
+                    </div>
+                    <div class="pd-header-right">
+                        <div class="pd-price-wrap-dark">
+                            <span class="pd-price-dark">₹4.5 Cr*</span>
+                            <span class="pd-price-label-dark">Starting Price</span>
+                        </div>
+                        <a href="#" class="btn-download-brochure">
+                            <i class="fas fa-file-download"></i> Download Brochure
+                        </a>
                     </div>
                 </div>
 
