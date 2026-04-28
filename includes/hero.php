@@ -4,15 +4,24 @@
         <div class="swiper-wrapper">
             <!-- Slide 1 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-banner-2.jpeg');"></div>
+                <div class="slide-bg-container">
+                    <div class="slide-bg desktop-bg" style="background-image: url('assets/images/hero-banner-2.jpeg');"></div>
+                    <div class="slide-bg mobile-bg" style="background-image: url('assets/images/hero-banner-2.jpeg');"></div>
+                </div>
             </div>
             <!-- Slide 2 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-banner.jpeg');"></div>
+                <div class="slide-bg-container">
+                    <div class="slide-bg desktop-bg" style="background-image: url('assets/images/hero-banner.jpeg');"></div>
+                    <div class="slide-bg mobile-bg" style="background-image: url('assets/images/hero-banner.jpeg');"></div>
+                </div>
             </div>
             <!-- Slide 3 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-banner-1.jpeg');"></div>
+                <div class="slide-bg-container">
+                    <div class="slide-bg desktop-bg" style="background-image: url('assets/images/hero-banner-1.jpeg');"></div>
+                    <div class="slide-bg mobile-bg" style="background-image: url('assets/images/hero-banner-1.jpeg');"></div>
+                </div>
             </div>
         </div>
         <!-- Add Navigation -->
