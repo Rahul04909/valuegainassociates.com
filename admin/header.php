@@ -10,6 +10,14 @@ $menuItems = [
         ],
     ],
     [
+        "menuTitle" => "Projects",
+        "icon" => "fas fa-building",
+        "pages" => [
+            ["title" => "All Projects", "url" => "projects.php"],
+            ["title" => "Add New Project", "url" => "project-add.php"]
+        ],
+    ],
+    [
         "menuTitle" => "Settings",
         "icon" => "fas fa-cog",
         "pages" => [
