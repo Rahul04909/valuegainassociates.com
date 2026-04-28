@@ -194,12 +194,29 @@ $gallery = json_decode($project['gallery'], true);
                             })
                             .then(res => res.json())
                             .then(data => {
-                                alert(data.message);
                                 if(data.status === 'success') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Enquiry Sent!',
+                                        text: data.message,
+                                        confirmButtonColor: '#007bff'
+                                    });
                                     this.reset();
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: data.message
+                                    });
                                 }
                             })
-                            .catch(err => alert('Something went wrong. Please try again.'))
+                            .catch(err => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong. Please try again.'
+                                });
+                            })
                             .finally(() => {
                                 btn.innerText = originalText;
                                 btn.disabled = false;

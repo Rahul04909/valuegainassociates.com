@@ -45,6 +45,9 @@
     <link rel="stylesheet" href="assets/projects-page.css">
     <link rel="stylesheet" href="assets/legal-pages.css">
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -170,13 +173,30 @@
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
                 if(data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: data.message,
+                        confirmButtonColor: '#24b64a'
+                    });
                     this.reset();
                     closeEnquiryModal();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message
+                    });
                 }
             })
-            .catch(err => alert('Something went wrong. Please try again.'))
+            .catch(err => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again.'
+                });
+            })
             .finally(() => {
                 btn.innerText = originalText;
                 btn.disabled = false;
