@@ -15,11 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $possession = $_POST['possession'];
     $badge = $_POST['badge'];
     $description = $_POST['description'];
-    $amenities = $_POST['amenities'];
+    
+    // SEO Fields
+    $meta_title = $_POST['meta_title'];
+    $meta_description = $_POST['meta_description'];
+    $meta_keywords = $_POST['meta_keywords'];
+    $schema_markup = $_POST['schema_markup'];
+    $og_title = $_POST['og_title'];
+    $og_description = $_POST['og_description'];
     
     $upload_dir = '../assets/images/';
     $main_image_path = '';
+    $featured_image_path = '';
+    $og_image_path = '';
     $gallery_paths = [];
+    $amenities_arr = [];
 
     // Ensure upload dir exists
     if (!is_dir($upload_dir)) {
@@ -32,6 +42,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES['main_image']['tmp_name'], $upload_dir . $filename);
         $main_image_path = 'assets/images/' . $filename;
     }
+    
+    if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
+        $ext = pathinfo($_FILES['featured_image']['name'], PATHINFO_EXTENSION);
+        $filename = 'feat_' . time() . '.' . $ext;
+        move_uploaded_file($_FILES['featured_image']['tmp_name'], $upload_dir . $filename);
+        $featured_image_path = 'assets/images/' . $filename;
+    }
+    
+    if (isset($_FILES['og_image']) && $_FILES['og_image']['error'] == 0) {
+        $ext = pathinfo($_FILES['og_image']['name'], PATHINFO_EXTENSION);
+        $filename = 'og_' . time() . '.' . $ext;
+        move_uploaded_file($_FILES['og_image']['tmp_name'], $upload_dir . $filename);
+        $og_image_path = 'assets/images/' . $filename;
+    }
+
+    // Dynamic Amenities
+    if (isset($_POST['amenity_titles']) && is_array($_POST['amenity_titles'])) {
+        foreach ($_POST['amenity_titles'] as $index => $am_title) {
+            $am_icon_path = '';
+            if (isset($_FILES['amenity_icons']['name'][$index]) && $_FILES['amenity_icons']['error'][$index] == 0) {
+                $ext = pathinfo($_FILES['amenity_icons']['name'][$index], PATHINFO_EXTENSION);
+                $filename = 'icon_' . time() . '_' . $index . '.' . $ext;
+                move_uploaded_file($_FILES['amenity_icons']['tmp_name'][$index], $upload_dir . $filename);
+                $am_icon_path = 'assets/images/' . $filename;
+            }
+            if (!empty($am_title) || !empty($am_icon_path)) {
+                $amenities_arr[] = [
+                    'title' => $am_title,
+                    'icon' => $am_icon_path
+                ];
+            }
+        }
+    }
+    $amenities_json = json_encode($amenities_arr);
 
     if (isset($_FILES['gallery']) && !empty($_FILES['gallery']['name'][0])) {
         foreach ($_FILES['gallery']['name'] as $key => $name) {
@@ -43,11 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    
     $gallery_json = json_encode($gallery_paths);
 
-    $stmt = $conn->prepare("INSERT INTO projects (title, location, price, price_label, property_type, area, status, possession, badge, description, amenities, main_image, gallery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssssssss", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities, $main_image_path, $gallery_json);
+    $stmt = $conn->prepare("INSERT INTO projects (title, location, price, price_label, property_type, area, status, possession, badge, description, amenities, main_image, gallery, featured_image, meta_title, meta_description, meta_keywords, schema_markup, og_title, og_description, og_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssssssssssssssss", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities_json, $main_image_path, $gallery_json, $featured_image_path, $meta_title, $meta_description, $meta_keywords, $schema_markup, $og_title, $og_description, $og_image_path);
     $stmt->execute();
     
     $_SESSION['success'] = "Project added successfully.";
@@ -65,7 +108,13 @@ include 'header.php';
     <div class="card-body">
         <link rel="stylesheet" href="../vendor/summernote/summernote/dist/summernote-bs4.css">
         <form action="" method="POST" enctype="multipart/form-data">
+            
+            <h4 class="mb-3 text-primary border-bottom pb-2">1. Basic Information</h4>
             <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label>Featured Image (Before Project Title)</label>
+                    <input type="file" name="featured_image" class="form-control" accept="image/*">
+                </div>
                 <div class="col-md-6 mb-3">
                     <label>Project Title</label>
                     <input type="text" name="title" class="form-control" required>
@@ -106,23 +155,93 @@ include 'header.php';
                     <label>Project Overview / Description</label>
                     <textarea name="description" id="summernote" class="form-control" rows="5"></textarea>
                 </div>
-                <div class="col-md-12 mb-3">
-                    <label>Amenities (Comma separated)</label>
-                    <input type="text" name="amenities" class="form-control" placeholder="Infinity Pool, Fitness Center, 24/7 Security...">
+            </div>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">2. Amenities</h4>
+            <div id="amenities-container">
+                <div class="row mb-2 amenity-row">
+                    <div class="col-md-5">
+                        <label>Amenity Title</label>
+                        <input type="text" name="amenity_titles[]" class="form-control" placeholder="e.g. Swimming Pool">
+                    </div>
+                    <div class="col-md-5">
+                        <label>Amenity Icon (Image)</label>
+                        <input type="file" name="amenity_icons[]" class="form-control" accept="image/*">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger remove-amenity">Remove</button>
+                    </div>
                 </div>
+            </div>
+            <button type="button" class="btn btn-success btn-sm mb-4" id="add-amenity">+ Add Another Amenity</button>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">3. Media</h4>
+            <div class="row">
                 <div class="col-md-6 mb-3">
                     <label>Main Hero Image</label>
                     <input type="file" name="main_image" class="form-control" accept="image/*" required>
                     <div id="main-preview"></div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label>Gallery Images (Select multiple)</label>
-                    <input type="file" name="gallery[]" class="form-control" accept="image/*" multiple>
-                    <div id="gallery-preview" class="d-flex flex-wrap"></div>
+                    <label>Gallery Images</label>
+                    <div id="gallery-inputs-container">
+                        <input type="file" name="gallery[]" class="form-control gallery-input mb-2" accept="image/*" multiple>
+                    </div>
+                    <button type="button" class="btn btn-info btn-sm" id="add-gallery-input">+ Add More Images to Gallery</button>
+                    <div id="gallery-preview" class="d-flex flex-wrap mt-2"></div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Save Project</button>
-            <a href="projects.php" class="btn btn-secondary">Cancel</a>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">4. SEO Information</h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>SEO Meta Title</label>
+                    <input type="text" name="meta_title" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>SEO Meta Keywords</label>
+                    <input type="text" name="meta_keywords" class="form-control" placeholder="keyword1, keyword2...">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>SEO Meta Description</label>
+                    <textarea name="meta_description" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Schema Markup (JSON-LD)</label>
+                    <?php
+                    $auto_schema = '{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Project Name",
+  "image": "Project Image URL",
+  "description": "Project Description",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "89"
+  }
+}';
+                    ?>
+                    <textarea name="schema_markup" class="form-control" rows="8"><?= htmlspecialchars($auto_schema) ?></textarea>
+                    <small class="text-muted">Auto-generated template provided. Modify as needed.</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>OG Title</label>
+                    <input type="text" name="og_title" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>OG Image</label>
+                    <input type="file" name="og_image" class="form-control" accept="image/*">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>OG Description</label>
+                    <textarea name="og_description" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <hr>
+            <button type="submit" class="btn btn-primary btn-lg">Save Project</button>
+            <a href="projects.php" class="btn btn-secondary btn-lg">Cancel</a>
         </form>
     </div>
 </div>
@@ -133,6 +252,36 @@ $(document).ready(function() {
     $('#summernote').summernote({
         height: 300,
         placeholder: 'Write project overview here...'
+    });
+
+    // Dynamic Amenities
+    $('#add-amenity').click(function() {
+        var html = `
+        <div class="row mb-2 amenity-row">
+            <div class="col-md-5">
+                <input type="text" name="amenity_titles[]" class="form-control" placeholder="e.g. Swimming Pool">
+            </div>
+            <div class="col-md-5">
+                <input type="file" name="amenity_icons[]" class="form-control" accept="image/*">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-danger remove-amenity">Remove</button>
+            </div>
+        </div>`;
+        $('#amenities-container').append(html);
+    });
+
+    $(document).on('click', '.remove-amenity', function() {
+        if($('.amenity-row').length > 1) {
+            $(this).closest('.amenity-row').remove();
+        } else {
+            alert('At least one amenity field is required.');
+        }
+    });
+
+    // Cumulative Gallery Input
+    $('#add-gallery-input').click(function() {
+        $('#gallery-inputs-container').append('<input type="file" name="gallery[]" class="form-control gallery-input mb-2" accept="image/*" multiple>');
     });
 
     // Main Image Preview
@@ -147,14 +296,15 @@ $(document).ready(function() {
         }
     });
 
-    // Gallery Preview
-    $('input[name="gallery[]"]').on('change', function() {
-        $('#gallery-preview').html('');
+    // Gallery Preview (Delegated to handle dynamically added inputs)
+    $(document).on('change', '.gallery-input', function() {
+        var $previewContainer = $('#gallery-preview');
+        // We don't clear the preview because we are accumulating
         if (this.files) {
             Array.from(this.files).forEach(file => {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    $('#gallery-preview').append('<img src="'+e.target.result+'" style="height:100px; width:100px; border-radius:5px; margin-top:10px; margin-right:10px; object-fit:cover;">');
+                    $previewContainer.append('<img src="'+e.target.result+'" style="height:100px; width:100px; border-radius:5px; margin-top:10px; margin-right:10px; object-fit:cover; border:1px solid #ddd;">');
                 }
                 reader.readAsDataURL(file);
             });

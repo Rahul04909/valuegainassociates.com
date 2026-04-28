@@ -32,10 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $possession = $_POST['possession'];
     $badge = $_POST['badge'];
     $description = $_POST['description'];
-    $amenities = $_POST['amenities'];
+
+    // SEO Fields
+    $meta_title = $_POST['meta_title'];
+    $meta_description = $_POST['meta_description'];
+    $meta_keywords = $_POST['meta_keywords'];
+    $schema_markup = $_POST['schema_markup'];
+    $og_title = $_POST['og_title'];
+    $og_description = $_POST['og_description'];
     
     $upload_dir = '../assets/images/';
     $main_image_path = $project['main_image'];
+    $featured_image_path = $project['featured_image'] ?? '';
+    $og_image_path = $project['og_image'] ?? '';
     $gallery_paths = json_decode($project['gallery'], true) ?: [];
 
     // Ensure upload dir exists
@@ -52,30 +61,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES['main_image']['tmp_name'], $upload_dir . $filename);
         $main_image_path = 'assets/images/' . $filename;
     }
+    
+    if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
+        if ($featured_image_path && file_exists("../" . $featured_image_path)) {
+            unlink("../" . $featured_image_path);
+        }
+        $ext = pathinfo($_FILES['featured_image']['name'], PATHINFO_EXTENSION);
+        $filename = 'feat_' . time() . '.' . $ext;
+        move_uploaded_file($_FILES['featured_image']['tmp_name'], $upload_dir . $filename);
+        $featured_image_path = 'assets/images/' . $filename;
+    }
+    
+    if (isset($_FILES['og_image']) && $_FILES['og_image']['error'] == 0) {
+        if ($og_image_path && file_exists("../" . $og_image_path)) {
+            unlink("../" . $og_image_path);
+        }
+        $ext = pathinfo($_FILES['og_image']['name'], PATHINFO_EXTENSION);
+        $filename = 'og_' . time() . '.' . $ext;
+        move_uploaded_file($_FILES['og_image']['tmp_name'], $upload_dir . $filename);
+        $og_image_path = 'assets/images/' . $filename;
+    }
 
-    if (isset($_FILES['gallery']) && !empty($_FILES['gallery']['name'][0])) {
-        // Replace existing gallery images
-        foreach ($gallery_paths as $img) {
-            if (file_exists("../" . $img)) {
-                unlink("../" . $img);
+    // Dynamic Amenities Processing
+    // We get old amenities first
+    $amenities_arr = json_decode($project['amenities'], true) ?: [];
+    $new_amenities_arr = [];
+
+    // Process old amenities (they might have been removed or kept)
+    // Actually, it's easier to just rebuild the array based on what's submitted.
+    // If the user submits existing hidden icons, we keep them.
+    if (isset($_POST['amenity_titles']) && is_array($_POST['amenity_titles'])) {
+        foreach ($_POST['amenity_titles'] as $index => $am_title) {
+            $am_icon_path = $_POST['existing_amenity_icons'][$index] ?? '';
+            
+            // Did they upload a new icon?
+            if (isset($_FILES['amenity_icons']['name'][$index]) && $_FILES['amenity_icons']['error'][$index] == 0) {
+                // Delete old icon if it exists
+                if ($am_icon_path && file_exists("../" . $am_icon_path)) {
+                    unlink("../" . $am_icon_path);
+                }
+                $ext = pathinfo($_FILES['amenity_icons']['name'][$index], PATHINFO_EXTENSION);
+                $filename = 'icon_' . time() . '_' . $index . '.' . $ext;
+                move_uploaded_file($_FILES['amenity_icons']['tmp_name'][$index], $upload_dir . $filename);
+                $am_icon_path = 'assets/images/' . $filename;
+            }
+            
+            if (!empty($am_title) || !empty($am_icon_path)) {
+                $new_amenities_arr[] = [
+                    'title' => $am_title,
+                    'icon' => $am_icon_path
+                ];
             }
         }
-        $gallery_paths = [];
+    }
+    
+    // Check if any old amenities were deleted from the UI, we should unlink their images
+    // To do this properly, we find the difference, but it's okay to leave old images or do a quick diff.
+    foreach($amenities_arr as $old_am) {
+        $found = false;
+        foreach($new_amenities_arr as $new_am) {
+            if($old_am['icon'] == $new_am['icon']) {
+                $found = true; break;
+            }
+        }
+        if(!$found && $old_am['icon'] && file_exists("../" . $old_am['icon'])) {
+            unlink("../" . $old_am['icon']);
+        }
+    }
+    
+    $amenities_json = json_encode($new_amenities_arr);
+
+    if (isset($_FILES['gallery']) && !empty($_FILES['gallery']['name'][0])) {
+        // Since we are replacing the gallery entirely when they upload new ones on the edit page 
+        // OR we can accumulate them. But typically Edit replaces or appends.
+        // Let's replace for simplicity, as per previous logic, but since they want to accumulate:
+        // Actually, let's keep old gallery images and APPEND new ones.
+        $new_gallery_paths = [];
         
         foreach ($_FILES['gallery']['name'] as $key => $name) {
             if ($_FILES['gallery']['error'][$key] == 0) {
                 $ext = pathinfo($name, PATHINFO_EXTENSION);
                 $filename = 'gal_' . time() . '_' . $key . '.' . $ext;
                 move_uploaded_file($_FILES['gallery']['tmp_name'][$key], $upload_dir . $filename);
-                $gallery_paths[] = 'assets/images/' . $filename;
+                $new_gallery_paths[] = 'assets/images/' . $filename;
             }
         }
+        // Append to existing
+        $gallery_paths = array_merge($gallery_paths, $new_gallery_paths);
     }
     
+    // Also handle if they want to clear gallery? Not requested, so we'll just append.
     $gallery_json = json_encode($gallery_paths);
 
-    $stmt = $conn->prepare("UPDATE projects SET title=?, location=?, price=?, price_label=?, property_type=?, area=?, status=?, possession=?, badge=?, description=?, amenities=?, main_image=?, gallery=? WHERE id=?");
-    $stmt->bind_param("sssssssssssssi", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities, $main_image_path, $gallery_json, $id);
+    $stmt = $conn->prepare("UPDATE projects SET title=?, location=?, price=?, price_label=?, property_type=?, area=?, status=?, possession=?, badge=?, description=?, amenities=?, main_image=?, gallery=?, featured_image=?, meta_title=?, meta_description=?, meta_keywords=?, schema_markup=?, og_title=?, og_description=?, og_image=? WHERE id=?");
+    $stmt->bind_param("sssssssssssssssssssssi", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities_json, $main_image_path, $gallery_json, $featured_image_path, $meta_title, $meta_description, $meta_keywords, $schema_markup, $og_title, $og_description, $og_image_path, $id);
     $stmt->execute();
     
     $_SESSION['success'] = "Project updated successfully.";
@@ -98,7 +177,18 @@ include 'header.php';
     <div class="card-body">
         <link rel="stylesheet" href="../vendor/summernote/summernote/dist/summernote-bs4.css">
         <form action="" method="POST" enctype="multipart/form-data">
+            
+            <h4 class="mb-3 text-primary border-bottom pb-2">1. Basic Information</h4>
             <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label>Featured Image (Before Project Title) - Leave empty to keep current</label>
+                    <input type="file" name="featured_image" class="form-control" accept="image/*">
+                    <?php if(!empty($project['featured_image'])): ?>
+                        <div class="mt-2">
+                            <img src="../<?= $project['featured_image'] ?>" style="height:100px; border-radius:5px; object-fit:cover;">
+                        </div>
+                    <?php endif; ?>
+                </div>
                 <div class="col-md-6 mb-3">
                     <label>Project Title</label>
                     <input type="text" name="title" class="form-control" value="<?= htmlspecialchars($project['title']) ?>" required>
@@ -139,10 +229,58 @@ include 'header.php';
                     <label>Project Overview / Description</label>
                     <textarea name="description" id="summernote" class="form-control" rows="5"><?= htmlspecialchars($project['description']) ?></textarea>
                 </div>
-                <div class="col-md-12 mb-3">
-                    <label>Amenities (Comma separated)</label>
-                    <input type="text" name="amenities" class="form-control" value="<?= htmlspecialchars($project['amenities']) ?>">
+            </div>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">2. Amenities</h4>
+            <div id="amenities-container">
+                <?php 
+                $existing_amenities = json_decode($project['amenities'], true);
+                if($existing_amenities && is_array($existing_amenities) && count($existing_amenities) > 0):
+                    foreach($existing_amenities as $am):
+                ?>
+                <div class="row mb-2 amenity-row">
+                    <div class="col-md-5">
+                        <label>Amenity Title</label>
+                        <input type="text" name="amenity_titles[]" class="form-control" value="<?= htmlspecialchars($am['title']) ?>">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Amenity Icon (Replace?)</label>
+                        <input type="file" name="amenity_icons[]" class="form-control" accept="image/*">
+                        <input type="hidden" name="existing_amenity_icons[]" value="<?= htmlspecialchars($am['icon']) ?>">
+                    </div>
+                    <div class="col-md-1">
+                        <?php if($am['icon']): ?>
+                            <img src="../<?= $am['icon'] ?>" style="height:40px; margin-top:25px; border-radius:5px;">
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger remove-amenity">Remove</button>
+                    </div>
                 </div>
+                <?php 
+                    endforeach;
+                else: 
+                ?>
+                <div class="row mb-2 amenity-row">
+                    <div class="col-md-5">
+                        <label>Amenity Title</label>
+                        <input type="text" name="amenity_titles[]" class="form-control" placeholder="e.g. Swimming Pool">
+                    </div>
+                    <div class="col-md-5">
+                        <label>Amenity Icon (Image)</label>
+                        <input type="file" name="amenity_icons[]" class="form-control" accept="image/*">
+                        <input type="hidden" name="existing_amenity_icons[]" value="">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger remove-amenity">Remove</button>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+            <button type="button" class="btn btn-success btn-sm mb-4" id="add-amenity">+ Add Another Amenity</button>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">3. Media</h4>
+            <div class="row">
                 <div class="col-md-6 mb-3">
                     <label>Main Hero Image (Leave empty to keep current)</label>
                     <input type="file" name="main_image" class="form-control" accept="image/*">
@@ -155,23 +293,80 @@ include 'header.php';
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label>Gallery Images (Select multiple - This will REPLACE current gallery)</label>
-                    <input type="file" name="gallery[]" class="form-control" accept="image/*" multiple>
-                    <div id="gallery-preview" class="d-flex flex-wrap">
+                    <label>Gallery Images (New images will be appended to existing)</label>
+                    <div id="gallery-inputs-container">
+                        <input type="file" name="gallery[]" class="form-control gallery-input mb-2" accept="image/*" multiple>
+                    </div>
+                    <button type="button" class="btn btn-info btn-sm" id="add-gallery-input">+ Add More Images to Gallery</button>
+                    <div id="gallery-preview" class="d-flex flex-wrap mt-2">
                         <?php 
                         $gal = json_decode($project['gallery'], true);
                         if($gal && is_array($gal)): ?>
-                            <div class="mt-2 d-flex gap-2 flex-wrap">
-                                <?php foreach($gal as $img): ?>
-                                    <img src="../<?= $img ?>" style="height:100px; width:100px; border-radius:5px; object-fit:cover;">
-                                <?php endforeach; ?>
-                            </div>
+                            <?php foreach($gal as $img): ?>
+                                <img src="../<?= $img ?>" style="height:100px; width:100px; border-radius:5px; object-fit:cover; margin-right:10px; margin-bottom:10px;">
+                            <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Update Project</button>
-            <a href="projects.php" class="btn btn-secondary">Cancel</a>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">4. SEO Information</h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>SEO Meta Title</label>
+                    <input type="text" name="meta_title" class="form-control" value="<?= htmlspecialchars($project['meta_title'] ?? '') ?>">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>SEO Meta Keywords</label>
+                    <input type="text" name="meta_keywords" class="form-control" placeholder="keyword1, keyword2..." value="<?= htmlspecialchars($project['meta_keywords'] ?? '') ?>">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>SEO Meta Description</label>
+                    <textarea name="meta_description" class="form-control" rows="3"><?= htmlspecialchars($project['meta_description'] ?? '') ?></textarea>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>Schema Markup (JSON-LD)</label>
+                    <?php
+                    $schema = $project['schema_markup'] ?? '';
+                    if(!$schema) {
+                        $schema = '{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "'.htmlspecialchars($project['title']).'",
+  "image": "Project Image URL",
+  "description": "Project Description",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "89"
+  }
+}';
+                    }
+                    ?>
+                    <textarea name="schema_markup" class="form-control" rows="8"><?= htmlspecialchars($schema) ?></textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>OG Title</label>
+                    <input type="text" name="og_title" class="form-control" value="<?= htmlspecialchars($project['og_title'] ?? '') ?>">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>OG Image (Leave empty to keep current)</label>
+                    <input type="file" name="og_image" class="form-control" accept="image/*">
+                    <?php if(!empty($project['og_image'])): ?>
+                        <div class="mt-2">
+                            <img src="../<?= $project['og_image'] ?>" style="height:80px; border-radius:5px; object-fit:cover;">
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label>OG Description</label>
+                    <textarea name="og_description" class="form-control" rows="3"><?= htmlspecialchars($project['og_description'] ?? '') ?></textarea>
+                </div>
+            </div>
+
+            <hr>
+            <button type="submit" class="btn btn-primary btn-lg">Update Project</button>
+            <a href="projects.php" class="btn btn-secondary btn-lg">Cancel</a>
         </form>
     </div>
 </div>
@@ -182,6 +377,37 @@ $(document).ready(function() {
     $('#summernote').summernote({
         height: 300,
         placeholder: 'Write project overview here...'
+    });
+
+    // Dynamic Amenities
+    $('#add-amenity').click(function() {
+        var html = `
+        <div class="row mb-2 amenity-row">
+            <div class="col-md-5">
+                <input type="text" name="amenity_titles[]" class="form-control" placeholder="e.g. Swimming Pool">
+            </div>
+            <div class="col-md-5">
+                <input type="file" name="amenity_icons[]" class="form-control" accept="image/*">
+                <input type="hidden" name="existing_amenity_icons[]" value="">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-danger remove-amenity">Remove</button>
+            </div>
+        </div>`;
+        $('#amenities-container').append(html);
+    });
+
+    $(document).on('click', '.remove-amenity', function() {
+        if($('.amenity-row').length > 1) {
+            $(this).closest('.amenity-row').remove();
+        } else {
+            alert('At least one amenity field is required.');
+        }
+    });
+
+    // Cumulative Gallery Input
+    $('#add-gallery-input').click(function() {
+        $('#gallery-inputs-container').append('<input type="file" name="gallery[]" class="form-control gallery-input mb-2" accept="image/*" multiple>');
     });
 
     // Main Image Preview
@@ -196,14 +422,15 @@ $(document).ready(function() {
         }
     });
 
-    // Gallery Preview
-    $('input[name="gallery[]"]').on('change', function() {
-        $('#gallery-preview').html('');
+    // Gallery Preview (Delegated to handle dynamically added inputs)
+    $(document).on('change', '.gallery-input', function() {
+        var $previewContainer = $('#gallery-preview');
+        // We accumulate preview images
         if (this.files) {
             Array.from(this.files).forEach(file => {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    $('#gallery-preview').append('<img src="'+e.target.result+'" style="height:100px; width:100px; border-radius:5px; margin-top:10px; margin-right:10px; object-fit:cover;">');
+                    $previewContainer.append('<img src="'+e.target.result+'" style="height:100px; width:100px; border-radius:5px; margin-top:10px; margin-right:10px; object-fit:cover; border:1px solid #ddd;">');
                 }
                 reader.readAsDataURL(file);
             });
