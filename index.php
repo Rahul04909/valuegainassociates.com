@@ -11,6 +11,8 @@ include('components/services.php');
 include('components/projects.php');
 // Include the why choose us component
 include('components/why-choose-us.php');
+// Include the testimonials component
+include('includes/testimonials.php');
 ?>
 
 <!-- No extra content as requested -->

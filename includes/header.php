@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="assets/contact-page.css">
     <link rel="stylesheet" href="assets/projects-page.css">
     <link rel="stylesheet" href="assets/legal-pages.css">
+    <link rel="stylesheet" href="assets/testimonials.css">
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
