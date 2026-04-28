@@ -4,15 +4,15 @@
         <div class="swiper-wrapper">
             <!-- Slide 1 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-real.jpeg');"></div>
+                <div class="slide-bg" style="background-image: url('assets/images/hero-banner-2.jpeg');"></div>
             </div>
             <!-- Slide 2 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/slide2.png');"></div>
+                <div class="slide-bg" style="background-image: url('assets/images/hero-banner.jpeg');"></div>
             </div>
             <!-- Slide 3 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/slide3.png');"></div>
+                <div class="slide-bg" style="background-image: url('assets/images/hero-banner-1.jpeg');"></div>
             </div>
         </div>
         <!-- Add Navigation -->
