@@ -1,3 +1,16 @@
+<?php 
+require_once __DIR__ . '/../database/db_config.php';
+
+// Fetch projects from the database
+$sql = "SELECT id, title, location, price, property_type, area, badge, status, featured_image, main_image FROM projects ORDER BY created_at DESC LIMIT 4";
+$result = $conn->query($sql);
+$projects = [];
+if ($result && $result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $projects[] = $row;
+    }
+}
+?>
 <!-- Properties Component -->
 <section class="properties-section">
     <div class="container">
@@ -7,81 +20,35 @@
         </div>
 
         <div class="properties-grid">
-            <!-- Property 1 -->
-            <a href="project-details.php" style="text-decoration: none; color: inherit;">
-                <div class="property-card">
-                    <div class="property-image">
-                        <img src="assets/images/prop1.png" alt="Modern Villa">
-                        <div class="property-badge">For Sale</div>
-                        <div class="property-price">₹4.5 Cr</div>
-                    </div>
-                    <div class="property-info">
-                        <h3 class="prop-title">Emerald Luxury Villa</h3>
-                        <p class="prop-location"><i class="fas fa-map-marker-alt"></i> Pali Hill, Mumbai</p>
-                        <div class="prop-features">
-                            <span><i class="fas fa-bed"></i> 4 BHK</span>
-                            <span><i class="fas fa-bath"></i> 3 Bath</span>
+            <?php if(count($projects) > 0): ?>
+                <?php foreach($projects as $project): 
+                    // Use featured image if available, else fallback to main image or placeholder
+                    $image = !empty($project['featured_image']) ? $project['featured_image'] : (!empty($project['main_image']) ? $project['main_image'] : 'assets/images/prop1.png');
+                    $badge = !empty($project['badge']) ? $project['badge'] : $project['status'];
+                ?>
+                <a href="project-details.php?id=<?= $project['id'] ?>" style="text-decoration: none; color: inherit;">
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
+                            <?php if(!empty($badge)): ?>
+                                <div class="property-badge"><?= htmlspecialchars($badge) ?></div>
+                            <?php endif; ?>
+                            <div class="property-price"><?= htmlspecialchars($project['price']) ?></div>
+                        </div>
+                        <div class="property-info">
+                            <h3 class="prop-title"><?= htmlspecialchars($project['title']) ?></h3>
+                            <p class="prop-location"><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($project['location']) ?></p>
+                            <div class="prop-features">
+                                <span><i class="fas fa-bed"></i> <?= htmlspecialchars($project['property_type']) ?></span>
+                                <span><i class="fas fa-expand-arrows-alt"></i> <?= htmlspecialchars($project['area']) ?></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-
-            <!-- Property 2 -->
-            <a href="project-details.php" style="text-decoration: none; color: inherit;">
-                <div class="property-card">
-                    <div class="property-image">
-                        <img src="assets/images/prop2.png" alt="Luxury Apartment">
-                        <div class="property-badge">New Launch</div>
-                        <div class="property-price">₹2.8 Cr</div>
-                    </div>
-                    <div class="property-info">
-                        <h3 class="prop-title">Skyline Heights</h3>
-                        <p class="prop-location"><i class="fas fa-map-marker-alt"></i> Worli, Mumbai</p>
-                        <div class="prop-features">
-                            <span><i class="fas fa-bed"></i> 3 BHK</span>
-                            <span><i class="fas fa-bath"></i> 2 Bath</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Property 3 -->
-            <a href="project-details.php" style="text-decoration: none; color: inherit;">
-                <div class="property-card">
-                    <div class="property-image">
-                        <img src="assets/images/prop3.png" alt="Penthouse">
-                        <div class="property-badge">Exclusive</div>
-                        <div class="property-price">₹7.2 Cr</div>
-                    </div>
-                    <div class="property-info">
-                        <h3 class="prop-title">Azure Penthouse</h3>
-                        <p class="prop-location"><i class="fas fa-map-marker-alt"></i> Bandra West, Mumbai</p>
-                        <div class="prop-features">
-                            <span><i class="fas fa-bed"></i> 5 BHK</span>
-                            <span><i class="fas fa-bath"></i> 4 Bath</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Property 4 -->
-            <a href="project-details.php" style="text-decoration: none; color: inherit;">
-                <div class="property-card">
-                    <div class="property-image">
-                        <img src="assets/images/prop4.png" alt="Commercial Office">
-                        <div class="property-badge">Lease</div>
-                        <div class="property-price">₹1.5 L/mo</div>
-                    </div>
-                    <div class="property-info">
-                        <h3 class="prop-title">Corporate Plaza</h3>
-                        <p class="prop-location"><i class="fas fa-map-marker-alt"></i> BKC, Mumbai</p>
-                        <div class="prop-features">
-                            <span><i class="fas fa-expand-arrows-alt"></i> 2500 sqft</span>
-                            <span><i class="fas fa-parking"></i> 4 Spots</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No projects found.</p>
+            <?php endif; ?>
         </div>
 
         <div class="view-all-wrapper">
