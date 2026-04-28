@@ -413,8 +413,8 @@ $active_page = $active_pageInfo['active_page'] ?? null;
         </div>
 
         <aside class="main-sidebar sidebar-light-primary elevation-4">
-            <a href="./" class="brand-link" style="background-color: #fff !important; text-align: center; display: block;">
-                <img src="../assets/logo.png" alt="Valugain Logo" class="brand-image" style="max-height: 50px; background: none; border-radius: 0; margin-left: auto !important; margin-right: auto !important; float: none;">
+            <a href="./" class="brand-link" style="background-color: #fff !important; text-align: center; display: block; padding: 15px 5px !important; height: auto; border-bottom: 1px solid #dee2e6;">
+                <img src="../assets/logo.png" alt="Valugain Logo" style="max-height: 85px !important; max-width: 95%; background: none; border-radius: 0; float: none; box-shadow: none; display: inline-block;">
             </a>
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3">
