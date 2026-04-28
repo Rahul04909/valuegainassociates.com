@@ -1,7 +1,7 @@
-<?php 
+<?php
 $page_title = "Contact Us - Value Gain Associates";
 $meta_description = "Get in touch with Value Gain Associates for premium real estate services. We are here to help you find your dream home.";
-include 'includes/header.php'; 
+include 'includes/header.php';
 ?>
 
 <!-- Contact Hero -->
@@ -17,13 +17,15 @@ include 'includes/header.php';
             <!-- Contact Info -->
             <div class="contact-info-section">
                 <h2>Contact Information</h2>
-                <p style="margin-bottom: 40px; color: #ccc;">Have questions or need assistance? Our team of real estate experts is ready to help you navigate the market.</p>
-                
+                <p style="margin-bottom: 40px; color: #ccc;">Have questions or need assistance? Our team of real estate
+                    experts is ready to help you navigate the market.</p>
+
                 <div class="info-item">
                     <i class="fas fa-map-marker-alt"></i>
                     <div class="info-text">
                         <h4>Our Office</h4>
-                        <p>123, Luxury Tower, BKC, Mumbai, Maharashtra 400051</p>
+                        <p>Shop No. R-144, First Floor, Tower Royal Street, Omaxe World Street, Sector -79, Faridabad
+                            -121004</p>
                     </div>
                 </div>
 
@@ -62,7 +64,8 @@ include 'includes/header.php';
                         </div>
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
+                            <input type="email" name="email" class="form-control" placeholder="john@example.com"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Phone Number</label>
@@ -70,11 +73,13 @@ include 'includes/header.php';
                         </div>
                         <div class="form-group">
                             <label>Subject</label>
-                            <input type="text" name="subject" class="form-control" placeholder="Interested in a project" required>
+                            <input type="text" name="subject" class="form-control" placeholder="Interested in a project"
+                                required>
                         </div>
                         <div class="form-group full-width">
                             <label>Your Message</label>
-                            <textarea name="message" class="form-control" rows="5" placeholder="How can we help you?" required></textarea>
+                            <textarea name="message" class="form-control" rows="5" placeholder="How can we help you?"
+                                required></textarea>
                         </div>
                         <div class="form-group full-width">
                             <button type="submit" class="submit-btn">Send Message</button>
@@ -86,7 +91,10 @@ include 'includes/header.php';
 
         <!-- Google Map -->
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.793290466479!2d72.86311657597144!3d19.072818552109677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c892b0e9d6d1%3A0x6b801a2f646039c!2sBandra%20Kurla%20Complex%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1714300000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.793290466479!2d72.86311657597144!3d19.072818552109677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c892b0e9d6d1%3A0x6b801a2f646039c!2sBandra%20Kurla%20Complex%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1714300000000!5m2!1sen!2sin"
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
 </section>
