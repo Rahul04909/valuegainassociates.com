@@ -5,24 +5,39 @@ check_login();
 require_once '../database/db_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'];
-    $location = $_POST['location'];
-    $price = $_POST['price'];
-    $price_label = $_POST['price_label'];
-    $property_type = $_POST['property_type'];
-    $area = $_POST['area'];
-    $status = $_POST['status'];
-    $possession = $_POST['possession'];
-    $badge = $_POST['badge'];
-    $description = $_POST['description'];
+    // Check if post_max_size was exceeded
+    if (empty($_POST) && $_SERVER['CONTENT_LENGTH'] > 0) {
+        $_SESSION['error'] = "The uploaded files are too large. Please upload smaller files (limit is usually 2MB or 8MB depending on server settings).";
+        header("Location: project-add.php");
+        exit();
+    }
+
+    $title = $_POST['title'] ?? '';
+    
+    // Server side validation to prevent wiping data
+    if (empty(trim($title))) {
+        $_SESSION['error'] = "Project title is required.";
+        header("Location: project-add.php");
+        exit();
+    }
+
+    $location = $_POST['location'] ?? '';
+    $price = $_POST['price'] ?? '';
+    $price_label = $_POST['price_label'] ?? '';
+    $property_type = $_POST['property_type'] ?? '';
+    $area = $_POST['area'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $possession = $_POST['possession'] ?? '';
+    $badge = $_POST['badge'] ?? '';
+    $description = $_POST['description'] ?? '';
     
     // SEO Fields
-    $meta_title = $_POST['meta_title'];
-    $meta_description = $_POST['meta_description'];
-    $meta_keywords = $_POST['meta_keywords'];
-    $schema_markup = $_POST['schema_markup'];
-    $og_title = $_POST['og_title'];
-    $og_description = $_POST['og_description'];
+    $meta_title = $_POST['meta_title'] ?? '';
+    $meta_description = $_POST['meta_description'] ?? '';
+    $meta_keywords = $_POST['meta_keywords'] ?? '';
+    $schema_markup = $_POST['schema_markup'] ?? '';
+    $og_title = $_POST['og_title'] ?? '';
+    $og_description = $_POST['og_description'] ?? '';
     
     // Brochure Fields
     $enable_brochure = isset($_POST['enable_brochure']) ? 1 : 0;
@@ -123,6 +138,13 @@ include 'header.php';
         <h3 class="card-title">Add New Project</h3>
     </div>
     <div class="card-body">
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show">
+                <?= $_SESSION['error']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
         <link rel="stylesheet" href="../vendor/summernote/summernote/dist/summernote-bs4.css">
         <form action="" method="POST" enctype="multipart/form-data">
             
