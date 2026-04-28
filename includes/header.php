@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="assets/project-details.css">
     <link rel="stylesheet" href="assets/about-page.css">
     <link rel="stylesheet" href="assets/contact-page.css">
+    <link rel="stylesheet" href="assets/projects-page.css">
 
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
