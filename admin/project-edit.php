@@ -13,9 +13,11 @@ if (!$id) {
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT * FROM projects WHERE id = ?");
-$stmt->execute([$id]);
-$project = $stmt->fetch();
+$stmt = $conn->prepare("SELECT * FROM projects WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$project = $result->fetch_assoc();
 
 if (!$project) {
     header("Location: projects.php");
@@ -75,8 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $gallery_json = json_encode($gallery_paths);
 
-    $stmt = $pdo->prepare("UPDATE projects SET title=?, location=?, price=?, price_label=?, property_type=?, area=?, status=?, possession=?, badge=?, description=?, amenities=?, main_image=?, gallery=? WHERE id=?");
-    $stmt->execute([$title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities, $main_image_path, $gallery_json, $id]);
+    $stmt = $conn->prepare("UPDATE projects SET title=?, location=?, price=?, price_label=?, property_type=?, area=?, status=?, possession=?, badge=?, description=?, amenities=?, main_image=?, gallery=? WHERE id=?");
+    $stmt->bind_param("sssssssssssssi", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities, $main_image_path, $gallery_json, $id);
+    $stmt->execute();
     
     $_SESSION['success'] = "Project updated successfully.";
     header("Location: projects.php");

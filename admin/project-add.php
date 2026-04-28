@@ -49,8 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $gallery_json = json_encode($gallery_paths);
 
-    $stmt = $pdo->prepare("INSERT INTO projects (title, location, price, price_label, property_type, area, status, possession, badge, description, amenities, main_image, gallery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities, $main_image_path, $gallery_json]);
+    $stmt = $conn->prepare("INSERT INTO projects (title, location, price, price_label, property_type, area, status, possession, badge, description, amenities, main_image, gallery) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssssssss", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities, $main_image_path, $gallery_json);
+    $stmt->execute();
     
     $_SESSION['success'] = "Project added successfully.";
     header("Location: projects.php");

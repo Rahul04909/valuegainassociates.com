@@ -12,9 +12,11 @@ if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     
     // Get image paths to delete
-    $stmt = $pdo->prepare("SELECT main_image, gallery FROM projects WHERE id = ?");
-    $stmt->execute([$delete_id]);
-    $project = $stmt->fetch();
+    $stmt = $conn->prepare("SELECT main_image, gallery FROM projects WHERE id = ?");
+    $stmt->bind_param("i", $delete_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $project = $result->fetch_assoc();
     
     if ($project) {
         if ($project['main_image'] && file_exists("../" . $project['main_image'])) {
@@ -31,8 +33,9 @@ if (isset($_GET['delete_id'])) {
             }
         }
         
-        $stmt = $pdo->prepare("DELETE FROM projects WHERE id = ?");
-        $stmt->execute([$delete_id]);
+        $stmt = $conn->prepare("DELETE FROM projects WHERE id = ?");
+        $stmt->bind_param("i", $delete_id);
+        $stmt->execute();
         
         $_SESSION['success'] = "Project deleted successfully.";
         header('Location: projects.php');
@@ -41,8 +44,14 @@ if (isset($_GET['delete_id'])) {
 }
 
 // Fetch all projects
-$stmt = $pdo->query("SELECT * FROM projects ORDER BY created_at DESC");
-$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM projects ORDER BY created_at DESC";
+$result = $conn->query($sql);
+$projects = [];
+if ($result && $result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $projects[] = $row;
+    }
+}
 
 include 'header.php';
 ?>
