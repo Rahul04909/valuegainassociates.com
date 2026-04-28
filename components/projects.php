@@ -2,10 +2,10 @@
 <section class="properties-section">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Featured Properties</h2>
-            <p class="section-subtitle">Explore our handpicked selection of premium properties across India.</p>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Explore our handpicked selection of premium projects across India.</p>
         </div>
-        
+
         <div class="properties-grid">
             <!-- Property 1 -->
             <div class="property-card">
