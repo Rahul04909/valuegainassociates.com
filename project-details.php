@@ -133,6 +133,9 @@
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Phone Number" required>
                         </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Write your message..." rows="3" required></textarea>
+                        </div>
                         <button type="submit" class="pd-submit-btn">
                             Get Free Callback
                         </button>
@@ -140,7 +143,12 @@
                     
                     <div class="pd-contact-direct">
                         <span>Or call us directly</span>
-                        <a href="tel:+919876543210"><i class="fas fa-phone-alt"></i> +91 93152 33826</a>
+                        <a href="tel:+919876543210">
+                            <div class="animated-call-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div> 
+                            +91 93152 33826
+                        </a>
                     </div>
                 </div>
             </div>
