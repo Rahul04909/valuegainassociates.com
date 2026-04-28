@@ -160,23 +160,52 @@ $gallery = json_decode($project['gallery'], true);
                     <h3 class="contact-title">Interested in this Project?</h3>
                     <p class="contact-subtitle">Drop your details below and our luxury property consultant will get in touch with you.</p>
                     
-                    <form class="pd-form" action="" method="POST">
+                    <form class="pd-form" id="projectEnquiryForm">
+                        <input type="hidden" name="project_id" value="<?= $id ?>">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Name" required>
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Email Address" required>
+                            <input type="email" name="email" class="form-control" placeholder="Email Address" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Phone Number" required>
+                            <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Write your message..." rows="3" required></textarea>
+                            <textarea name="message" class="form-control" placeholder="Write your message..." rows="3" required></textarea>
                         </div>
                         <button type="submit" class="pd-submit-btn">
                             Get Free Callback
                         </button>
                     </form>
+                    
+                    <script>
+                        document.getElementById('projectEnquiryForm').addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            const btn = this.querySelector('button');
+                            const originalText = btn.innerText;
+                            btn.innerText = 'Sending...';
+                            btn.disabled = true;
+
+                            const formData = new FormData(this);
+                            fetch('process-enquiry.php', {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                alert(data.message);
+                                if(data.status === 'success') {
+                                    this.reset();
+                                }
+                            })
+                            .catch(err => alert('Something went wrong. Please try again.'))
+                            .finally(() => {
+                                btn.innerText = originalText;
+                                btn.disabled = false;
+                            });
+                        });
+                    </script>
                     
                     <div class="pd-contact-direct">
                         <span>Or call us directly</span>
