@@ -25,6 +25,13 @@ $menuItems = [
         ],
     ],
     [
+        "menuTitle" => "Contact Requests",
+        "icon" => "fas fa-headset",
+        "pages" => [
+            ["title" => "View Messages", "url" => "contacts.php"]
+        ],
+    ],
+    [
         "menuTitle" => "Settings",
         "icon" => "fas fa-cog",
         "pages" => [
