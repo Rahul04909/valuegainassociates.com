@@ -96,11 +96,11 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="bottom-wrapper">
-                <p>&copy; 2026 Valugain Associates - All Rights Reserved</p>
+                <p>&copy; 2026 Valugain Associates - All Rights Reserved | Designed by <a href="https://mineib.com" target="_blank" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Mineib</a></p>
                 <div class="bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms & Conditions</a>
-                    <a href="#">Sitemap</a>
+                    <a href="privacy.php">Privacy Policy</a>
+                    <a href="terms.php">Terms & Conditions</a>
+                    <a href="sitemap.xml">Sitemap</a>
                 </div>
             </div>
         </div>

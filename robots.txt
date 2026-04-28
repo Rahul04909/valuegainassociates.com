@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /components/
+Disallow: /database/
+Disallow: /vendor/
+
+Sitemap: https://valugainassociates.com/sitemap.xml
