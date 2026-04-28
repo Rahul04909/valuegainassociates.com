@@ -158,7 +158,37 @@
         function closeEnquiryModal() {
             document.getElementById('enquiryModal').style.display = 'none';
         }
+    </script>
 
+    <div id="enquiryModal" class="enquiry-modal-overlay">
+        <div class="enquiry-modal-content">
+            <span class="close-modal" onclick="closeEnquiryModal()">&times;</span>
+            <h2 id="enquiryModalTitle">Enquire Now</h2>
+            <p>Fill out the form below and our experts will get back to you shortly.</p>
+            <form id="enquiryForm">
+                <input type="hidden" name="project_id" id="enquiryProjectId">
+                <div class="modal-form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="modal-form-group">
+                    <label>Phone Number *</label>
+                    <input type="text" name="phone" placeholder="Enter your mobile number" required>
+                </div>
+                <div class="modal-form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="Enter your email">
+                </div>
+                <div class="modal-form-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="3" placeholder="I am interested in this project..."></textarea>
+                </div>
+                <button type="submit" class="modal-submit-btn">Submit Enquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
         document.getElementById('enquiryForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');
@@ -211,35 +241,6 @@
             }
         }
     </script>
-
-    <!-- Enquiry Modal Structure -->
-    <div id="enquiryModal" class="enquiry-modal-overlay">
-        <div class="enquiry-modal-content">
-            <span class="close-modal" onclick="closeEnquiryModal()">&times;</span>
-            <h2 id="enquiryModalTitle">Enquire Now</h2>
-            <p>Fill out the form below and our experts will get back to you shortly.</p>
-            <form id="enquiryForm">
-                <input type="hidden" name="project_id" id="enquiryProjectId">
-                <div class="modal-form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="name" placeholder="Enter your name" required>
-                </div>
-                <div class="modal-form-group">
-                    <label>Phone Number *</label>
-                    <input type="text" name="phone" placeholder="Enter your mobile number" required>
-                </div>
-                <div class="modal-form-group">
-                    <label>Email Address</label>
-                    <input type="email" name="email" placeholder="Enter your email">
-                </div>
-                <div class="modal-form-group">
-                    <label>Message</label>
-                    <textarea name="message" rows="3" placeholder="I am interested in this project..."></textarea>
-                </div>
-                <button type="submit" class="modal-submit-btn">Submit Enquiry</button>
-            </form>
-        </div>
-    </div>
 
     <style>
         .enquiry-modal-overlay {
