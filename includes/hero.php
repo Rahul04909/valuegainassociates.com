@@ -15,8 +15,6 @@
                 <div class="slide-bg" style="background-image: url('assets/images/slide3.png');"></div>
             </div>
         </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
         <!-- Add Navigation -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
@@ -33,10 +31,6 @@
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
         },
         navigation: {
             nextEl: '.swiper-button-next',

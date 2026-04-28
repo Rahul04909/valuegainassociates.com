@@ -17,11 +17,6 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    transition: transform 8s ease;
-}
-
-.swiper-slide-active .slide-bg {
-    transform: scale(1.1);
 }
 
 /* Custom Swiper Controls */
@@ -41,20 +36,6 @@
 
 .swiper-button-next:hover, .swiper-button-prev:hover {
     background: var(--primary-color);
-}
-
-.swiper-pagination-bullet {
-    width: 12px;
-    height: 12px;
-    background: var(--white);
-    opacity: 0.5;
-}
-
-.swiper-pagination-bullet-active {
-    background: var(--primary-color);
-    opacity: 1;
-    width: 30px;
-    border-radius: 5px;
 }
 
 /* Mobile Responsive Adjustments */
