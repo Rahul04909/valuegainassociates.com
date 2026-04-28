@@ -38,11 +38,11 @@
             <div class="footer-col">
                 <h3>Support</h3>
                 <ul class="footer-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">FAQ's</a></li>
-                    <li><a href="#">Legal Info</a></li>
+                    <li><a href="help-center.php">Help Center</a></li>
+                    <li><a href="terms.php">Terms of Service</a></li>
+                    <li><a href="privacy.php">Privacy Policy</a></li>
+                    <li><a href="faq.php">FAQ's</a></li>
+                    <li><a href="legal.php">Legal Info</a></li>
                 </ul>
             </div>
 
