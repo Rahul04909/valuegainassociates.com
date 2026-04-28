@@ -41,15 +41,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $og_title = $_POST['og_title'];
     $og_description = $_POST['og_description'];
     
+    // Brochure Fields
+    $enable_brochure = isset($_POST['enable_brochure']) ? 1 : 0;
+    
     $upload_dir = '../assets/images/';
+    $pdf_dir = '../assets/pdfs/';
     $main_image_path = $project['main_image'];
     $featured_image_path = $project['featured_image'] ?? '';
     $og_image_path = $project['og_image'] ?? '';
+    $brochure_file_path = $project['brochure_file'] ?? '';
     $gallery_paths = json_decode($project['gallery'], true) ?: [];
 
     // Ensure upload dir exists
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0777, true);
+    }
+    if (!is_dir($pdf_dir)) {
+        mkdir($pdf_dir, 0777, true);
+    }
+
+    if (isset($_FILES['brochure_file']) && $_FILES['brochure_file']['error'] == 0) {
+        $ext = pathinfo($_FILES['brochure_file']['name'], PATHINFO_EXTENSION);
+        if (strtolower($ext) === 'pdf') {
+            if ($brochure_file_path && file_exists("../" . $brochure_file_path)) {
+                unlink("../" . $brochure_file_path);
+            }
+            $filename = 'brochure_' . time() . '.' . $ext;
+            move_uploaded_file($_FILES['brochure_file']['tmp_name'], $pdf_dir . $filename);
+            $brochure_file_path = 'assets/pdfs/' . $filename;
+        }
     }
 
     if (isset($_FILES['main_image']) && $_FILES['main_image']['error'] == 0) {
@@ -153,8 +173,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Also handle if they want to clear gallery? Not requested, so we'll just append.
     $gallery_json = json_encode($gallery_paths);
 
-    $stmt = $conn->prepare("UPDATE projects SET title=?, location=?, price=?, price_label=?, property_type=?, area=?, status=?, possession=?, badge=?, description=?, amenities=?, main_image=?, gallery=?, featured_image=?, meta_title=?, meta_description=?, meta_keywords=?, schema_markup=?, og_title=?, og_description=?, og_image=? WHERE id=?");
-    $stmt->bind_param("sssssssssssssssssssssi", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities_json, $main_image_path, $gallery_json, $featured_image_path, $meta_title, $meta_description, $meta_keywords, $schema_markup, $og_title, $og_description, $og_image_path, $id);
+    $stmt = $conn->prepare("UPDATE projects SET title=?, location=?, price=?, price_label=?, property_type=?, area=?, status=?, possession=?, badge=?, description=?, amenities=?, main_image=?, gallery=?, featured_image=?, meta_title=?, meta_description=?, meta_keywords=?, schema_markup=?, og_title=?, og_description=?, og_image=?, enable_brochure=?, brochure_file=? WHERE id=?");
+    $stmt->bind_param("sssssssssssssssssssssisi", $title, $location, $price, $price_label, $property_type, $area, $status, $possession, $badge, $description, $amenities_json, $main_image_path, $gallery_json, $featured_image_path, $meta_title, $meta_description, $meta_keywords, $schema_markup, $og_title, $og_description, $og_image_path, $enable_brochure, $brochure_file_path, $id);
     $stmt->execute();
     
     $_SESSION['success'] = "Project updated successfully.";
@@ -310,7 +330,27 @@ include 'header.php';
                 </div>
             </div>
 
-            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">4. SEO Information</h4>
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">4. Brochure Settings</h4>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="enable_brochure" name="enable_brochure" value="1" <?= !empty($project['enable_brochure']) ? 'checked' : '' ?>>
+                        <label class="custom-control-label" for="enable_brochure">Enable Brochure Download</label>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-3 brochure-file-container" style="<?= empty($project['enable_brochure']) ? 'display:none;' : '' ?>">
+                    <label>Upload Brochure (PDF Only) - Leave empty to keep current</label>
+                    <input type="file" name="brochure_file" class="form-control" accept=".pdf">
+                    <?php if(!empty($project['brochure_file'])): ?>
+                        <div class="mt-2">
+                            <a href="../<?= $project['brochure_file'] ?>" target="_blank" class="btn btn-sm btn-outline-info"><i class="fas fa-file-pdf"></i> View Current Brochure</a>
+                        </div>
+                    <?php endif; ?>
+                    <small class="text-muted">Users will be able to download this PDF file directly from the project details page.</small>
+                </div>
+            </div>
+
+            <h4 class="mb-3 mt-4 text-primary border-bottom pb-2">5. SEO Information</h4>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label>SEO Meta Title</label>
@@ -434,6 +474,15 @@ $(document).ready(function() {
                 }
                 reader.readAsDataURL(file);
             });
+        }
+    });
+
+    // Toggle Brochure Field
+    $('#enable_brochure').change(function() {
+        if($(this).is(':checked')) {
+            $('.brochure-file-container').slideDown();
+        } else {
+            $('.brochure-file-container').slideUp();
         }
     });
 });

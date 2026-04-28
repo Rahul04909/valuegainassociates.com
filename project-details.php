@@ -103,9 +103,11 @@ $gallery = json_decode($project['gallery'], true);
                             <span class="pd-price-label-dark"><?= $price_label ?></span>
                             <?php endif; ?>
                         </div>
-                        <a href="#" class="btn-download-brochure">
+                        <?php if(!empty($project['enable_brochure']) && !empty($project['brochure_file'])): ?>
+                        <a href="<?= htmlspecialchars($project['brochure_file']) ?>" class="btn-download-brochure" target="_blank" rel="noopener noreferrer">
                             <i class="fas fa-file-download"></i> Download Brochure
                         </a>
+                        <?php endif; ?>
                     </div>
                 </div>
 

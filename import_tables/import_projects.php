@@ -24,6 +24,8 @@ $sql = "CREATE TABLE IF NOT EXISTS projects (
     og_title VARCHAR(255),
     og_description TEXT,
     og_image VARCHAR(255),
+    enable_brochure TINYINT(1) DEFAULT 0,
+    brochure_file VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 
@@ -42,7 +44,9 @@ $columns = [
     "schema_markup" => "TEXT",
     "og_title" => "VARCHAR(255)",
     "og_description" => "TEXT",
-    "og_image" => "VARCHAR(255)"
+    "og_image" => "VARCHAR(255)",
+    "enable_brochure" => "TINYINT(1) DEFAULT 0",
+    "brochure_file" => "VARCHAR(255)"
 ];
 
 foreach ($columns as $col => $def) {
