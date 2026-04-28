@@ -44,15 +44,15 @@ include 'includes/header.php';
 </section>
 
 <!-- Vision & Mission -->
-<section class="about-page-section" style="background: #fff;">
+<section class="about-page-section" style="background: #fff; padding-top: 20px;">
     <div class="container">
         <div class="vision-mission-grid">
-            <div class="vm-card">
+            <div class="vm-card square-card">
                 <i class="fas fa-eye"></i>
                 <h3>Our Vision</h3>
                 <p>To be the premier real estate consultancy in India, recognized globally for setting benchmarks in customer satisfaction and ethical business practices.</p>
             </div>
-            <div class="vm-card">
+            <div class="vm-card square-card">
                 <i class="fas fa-bullseye"></i>
                 <h3>Our Mission</h3>
                 <p>To empower our clients with data-driven insights and personalized service, making property acquisition a seamless and rewarding experience for everyone.</p>
@@ -80,49 +80,6 @@ include 'includes/header.php';
             <div class="stat-item">
                 <h2>50+</h2>
                 <p>Expert Consultants</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Our Team -->
-<section class="about-page-section">
-    <div class="container">
-        <div class="section-header" style="text-align: center; margin-bottom: 50px;">
-            <h6 class="subtitle" style="color: #007bff; font-weight: 600; text-transform: uppercase;">Our Leadership</h6>
-            <h2 class="title" style="font-size: 2.5rem; color: #0a192f;">Meet Our <span>Expert</span> Team</h2>
-        </div>
-        
-        <div class="team-grid">
-            <!-- Team Member 1 -->
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Founder">
-                </div>
-                <div class="team-info">
-                    <h4>Abhishek Sharma</h4>
-                    <p>Founder & CEO</p>
-                </div>
-            </div>
-            <!-- Team Member 2 -->
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Director">
-                </div>
-                <div class="team-info">
-                    <h4>Priya Verma</h4>
-                    <p>Director of Operations</p>
-                </div>
-            </div>
-            <!-- Team Member 3 -->
-            <div class="team-card">
-                <div class="team-image">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Manager">
-                </div>
-                <div class="team-info">
-                    <h4>Rahul Gupta</h4>
-                    <p>Senior Sales Manager</p>
-                </div>
             </div>
         </div>
     </div>
