@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once 'database/db_config.php';
 
 $id = $_GET['id'] ?? 0;
@@ -27,7 +27,7 @@ if ($og_image && !preg_match('/^http/', $og_image)) {
 }
 $schema_markup = $project['schema_markup'] ?: "";
 
-include 'includes/header.php'; 
+include 'includes/header.php';
 
 // Prepare variables for display
 $main_image = !empty($project['main_image']) ? $project['main_image'] : 'assets/images/prop1.png';
@@ -57,10 +57,10 @@ $gallery = json_decode($project['gallery'], true);
 <div class="pd-main-section">
     <div class="container">
         <div class="pd-layout">
-            
+
             <!-- Left Column: Content -->
             <div class="pd-content">
-                
+
 
 
                 <!-- Quick Info Bar -->
@@ -90,8 +90,8 @@ $gallery = json_decode($project['gallery'], true);
                 <!-- Project Header Info -->
                 <div class="pd-header-info">
                     <div class="pd-header-left">
-                        <?php if($badge): ?>
-                        <div class="pd-badge-dark"><?= $badge ?></div>
+                        <?php if ($badge): ?>
+                            <div class="pd-badge-dark"><?= $badge ?></div>
                         <?php endif; ?>
                         <h1 class="pd-title-dark"><?= $title ?></h1>
                         <p class="pd-location-dark"><i class="fas fa-map-marker-alt"></i> <?= $location ?></p>
@@ -99,14 +99,15 @@ $gallery = json_decode($project['gallery'], true);
                     <div class="pd-header-right">
                         <div class="pd-price-wrap-dark">
                             <span class="pd-price-dark"><?= $price ?></span>
-                            <?php if($price_label): ?>
-                            <span class="pd-price-label-dark"><?= $price_label ?></span>
+                            <?php if ($price_label): ?>
+                                <span class="pd-price-label-dark"><?= $price_label ?></span>
                             <?php endif; ?>
                         </div>
-                        <?php if(!empty($project['enable_brochure']) && !empty($project['brochure_file'])): ?>
-                        <a href="<?= htmlspecialchars($project['brochure_file']) ?>" class="btn-download-brochure" target="_blank" rel="noopener noreferrer">
-                            <i class="fas fa-file-download"></i> Download Brochure
-                        </a>
+                        <?php if (!empty($project['enable_brochure']) && !empty($project['brochure_file'])): ?>
+                            <a href="<?= htmlspecialchars($project['brochure_file']) ?>" class="btn-download-brochure"
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-file-download"></i> Download Brochure
+                            </a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -120,36 +121,37 @@ $gallery = json_decode($project['gallery'], true);
                 </div>
 
                 <!-- Amenities Section -->
-                <?php if($amenities && is_array($amenities) && count($amenities) > 0): ?>
-                <div class="pd-section">
-                    <h2 class="pd-section-title">Premium Amenities</h2>
-                    <div class="pd-amenities-grid">
-                        <?php foreach($amenities as $am): ?>
-                        <div class="am-item">
-                            <?php if(!empty($am['icon'])): ?>
-                                <img src="<?= htmlspecialchars($am['icon']) ?>" alt="<?= htmlspecialchars($am['title']) ?>" style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
-                            <?php else: ?>
-                                <i class="fas fa-check-circle"></i>
-                            <?php endif; ?>
-                            <span><?= htmlspecialchars($am['title']) ?></span>
+                <?php if ($amenities && is_array($amenities) && count($amenities) > 0): ?>
+                    <div class="pd-section">
+                        <h2 class="pd-section-title">Premium Amenities</h2>
+                        <div class="pd-amenities-grid">
+                            <?php foreach ($amenities as $am): ?>
+                                <div class="am-item">
+                                    <?php if (!empty($am['icon'])): ?>
+                                        <img src="<?= htmlspecialchars($am['icon']) ?>" alt="<?= htmlspecialchars($am['title']) ?>"
+                                            style="width: 32px; height: 32px; object-fit: contain; margin-bottom: 10px;">
+                                    <?php else: ?>
+                                        <i class="fas fa-check-circle"></i>
+                                    <?php endif; ?>
+                                    <span><?= htmlspecialchars($am['title']) ?></span>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
                     </div>
-                </div>
                 <?php endif; ?>
 
                 <!-- Floor Plan / Gallery (Interactive Grid) -->
-                <?php if($gallery && is_array($gallery) && count($gallery) > 0): ?>
-                <div class="pd-section">
-                    <h2 class="pd-section-title">Gallery</h2>
-                    <div class="pd-gallery">
-                        <?php foreach($gallery as $index => $img): ?>
-                        <div class="gallery-item <?= $index == 0 ? 'large' : '' ?>">
-                            <img src="<?= htmlspecialchars($img) ?>" alt="Gallery Image <?= $index + 1 ?>">
+                <?php if ($gallery && is_array($gallery) && count($gallery) > 0): ?>
+                    <div class="pd-section">
+                        <h2 class="pd-section-title">Gallery</h2>
+                        <div class="pd-gallery">
+                            <?php foreach ($gallery as $index => $img): ?>
+                                <div class="gallery-item <?= $index == 0 ? 'large' : '' ?>">
+                                    <img src="<?= htmlspecialchars($img) ?>" alt="Gallery Image <?= $index + 1 ?>">
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
                     </div>
-                </div>
                 <?php endif; ?>
 
             </div>
@@ -158,8 +160,9 @@ $gallery = json_decode($project['gallery'], true);
             <div class="pd-sidebar">
                 <div class="pd-contact-card sticky">
                     <h3 class="contact-title">Interested in this Project?</h3>
-                    <p class="contact-subtitle">Drop your details below and our luxury property consultant will get in touch with you.</p>
-                    
+                    <p class="contact-subtitle">Drop your details below and our luxury property consultant will get in
+                        touch with you.</p>
+
                     <form class="pd-form" id="projectEnquiryForm">
                         <input type="hidden" name="project_id" value="<?= $id ?>">
                         <div class="form-group">
@@ -172,15 +175,16 @@ $gallery = json_decode($project['gallery'], true);
                             <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
                         </div>
                         <div class="form-group">
-                            <textarea name="message" class="form-control" placeholder="Write your message..." rows="3" required></textarea>
+                            <textarea name="message" class="form-control" placeholder="Write your message..." rows="3"
+                                required></textarea>
                         </div>
                         <button type="submit" class="pd-submit-btn">
                             Get Free Callback
                         </button>
                     </form>
-                    
+
                     <script>
-                        document.getElementById('projectEnquiryForm').addEventListener('submit', function(e) {
+                        document.getElementById('projectEnquiryForm').addEventListener('submit', function (e) {
                             e.preventDefault();
                             const btn = this.querySelector('button');
                             const originalText = btn.innerText;
@@ -192,45 +196,51 @@ $gallery = json_decode($project['gallery'], true);
                                 method: 'POST',
                                 body: formData
                             })
-                            .then(res => res.json())
-                            .then(data => {
-                                if(data.status === 'success') {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Enquiry Sent!',
-                                        text: data.message,
-                                        confirmButtonColor: '#007bff'
-                                    });
-                                    this.reset();
-                                } else {
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Enquiry Sent!',
+                                            text: data.message,
+                                            confirmButtonColor: '#007bff'
+                                        });
+                                        this.reset();
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error',
+                                            text: data.message
+                                        });
+                                    }
+                                })
+                                .catch(err => {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Error',
-                                        text: data.message
+                                        title: 'Oops...',
+                                        text: 'Something went wrong. Please try again.'
                                     });
-                                }
-                            })
-                            .catch(err => {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong. Please try again.'
+                                })
+                                .finally(() => {
+                                    btn.innerText = originalText;
+                                    btn.disabled = false;
                                 });
-                            })
-                            .finally(() => {
-                                btn.innerText = originalText;
-                                btn.disabled = false;
-                            });
                         });
                     </script>
-                    
+
                     <div class="pd-contact-direct">
                         <span>Or call us directly</span>
                         <a href="tel:+919876543210">
                             <div class="animated-call-icon">
                                 <i class="fas fa-phone-alt"></i>
-                            </div> 
+                            </div>
                             +91 93152 33826
+                        </a>
+                        <a href="tel:+919811277779">
+                            <div class="animated-call-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            +91 98112 77779
                         </a>
                     </div>
                 </div>
