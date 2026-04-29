@@ -4,28 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= !empty($page_title) ? htmlspecialchars($page_title) : "Valugain Associates - Premium Real Estate Services" ?></title>
-    <meta name="description" content="<?= !empty($meta_description) ? htmlspecialchars($meta_description) : "Valugain Associates offers premium real estate services. Find your dream property with us today." ?>">
-    <?php if(!empty($meta_keywords)): ?>
-    <meta name="keywords" content="<?= htmlspecialchars($meta_keywords) ?>">
+    <title>
+        
+        <?= !empty($page_title) ? htmlspecialchars($page_title) : "Valugain Associates - Premium Real Estate Services" ?>
+    </title>
+    <meta name="description"
+        content="<?= !empty($meta_description) ? htmlspecialchars($meta_description) : "Valugain Associates offers premium real estate services. Find your dream property with us today." ?>">
+<?php if (!empty($meta_keywords)): ?>
+            <meta name="keywords" content="<?= htmlspecialchars($meta_keywords) ?>">
     <?php endif; ?>
 
     <!-- Open Graph (OG) Information -->
-    <?php if(!empty($og_title)): ?>
-    <meta property="og:title" content="<?= htmlspecialchars($og_title) ?>" />
+  <?php if (!empty($og_title)): ?>
+            <meta property="og:title" content="<?= htmlspecialchars($og_title) ?>" />
     <?php endif; ?>
-    <?php if(!empty($og_description)): ?>
-    <meta property="og:description" content="<?= htmlspecialchars($og_description) ?>" />
+  <?php if (!empty($og_description)): ?>
+            <meta property="og:description" content="<?= htmlspecialchars($og_description) ?>" />
     <?php endif; ?>
-    <?php if(!empty($og_image)): ?>
-    <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>" />
+   <?php if (!empty($og_image)): ?>
+            <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>" />
     <?php endif; ?>
-    
+
     <!-- Schema Markup -->
-    <?php if(!empty($schema_markup)): ?>
-    <script type="application/ld+json">
-    <?= $schema_markup ?>
-    </script>
+<?php if (!empty($schema_markup)): ?>
+            <script type="application/ld+json">
+            <?= $schema_markup ?>
+            </script>
     <?php endif; ?>
 
     <!-- Swiper CSS -->
@@ -66,6 +70,7 @@
                 <a href="tel:+919876543210" class="top-info">
                     <i class="fas fa-phone-alt"></i>
                     <span>+91 93152 33826</span>
+                    <span>+91 98112 77779</span>
                 </a>
             </div>
             <div class="top-right">
@@ -148,7 +153,7 @@
         function openEnquiryModal(projectId = '', projectTitle = '') {
             const modal = document.getElementById('enquiryModal');
             document.getElementById('enquiryProjectId').value = projectId;
-            if(projectTitle) {
+            if (projectTitle) {
                 document.getElementById('enquiryModalTitle').innerText = 'Enquire for ' + projectTitle;
             } else {
                 document.getElementById('enquiryModalTitle').innerText = 'Enquire Now';
@@ -190,7 +195,7 @@
     </div>
 
     <script>
-        document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+        document.getElementById('enquiryForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const btn = this.querySelector('button');
             const originalText = btn.innerText;
@@ -202,40 +207,40 @@
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: data.message,
-                        confirmButtonColor: '#24b64a'
-                    });
-                    this.reset();
-                    closeEnquiryModal();
-                } else {
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                            confirmButtonColor: '#24b64a'
+                        });
+                        this.reset();
+                        closeEnquiryModal();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message
+                        });
+                    }
+                })
+                .catch(err => {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: data.message
+                        title: 'Error',
+                        text: 'Something went wrong. Please try again.'
                     });
-                }
-            })
-            .catch(err => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Something went wrong. Please try again.'
+                })
+                .finally(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
                 });
-            })
-            .finally(() => {
-                btn.innerText = originalText;
-                btn.disabled = false;
-            });
         });
 
         // Close modal on outside click
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const modal = document.getElementById('enquiryModal');
             if (event.target == modal) {
                 closeEnquiryModal();
@@ -247,14 +252,17 @@
         .enquiry-modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             z-index: 9999;
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(5px);
         }
+
         .enquiry-modal-content {
             background: #fff;
             padding: 40px;
@@ -264,27 +272,73 @@
             position: relative;
             animation: modalSlide 0.4s ease;
         }
+
         @keyframes modalSlide {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
+
         .close-modal {
             position: absolute;
-            top: 15px; right: 20px;
+            top: 15px;
+            right: 20px;
             font-size: 30px;
             cursor: pointer;
             color: #666;
         }
-        .enquiry-modal-content h2 { margin-bottom: 10px; color: #0a192f; }
-        .enquiry-modal-content p { margin-bottom: 25px; color: #666; font-size: 0.9rem; }
-        .modal-form-group { margin-bottom: 15px; }
-        .modal-form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9rem; }
-        .modal-form-group input, .modal-form-group textarea {
-            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;
+
+        .enquiry-modal-content h2 {
+            margin-bottom: 10px;
+            color: #0a192f;
         }
+
+        .enquiry-modal-content p {
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .modal-form-group {
+            margin-bottom: 15px;
+        }
+
+        .modal-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .modal-form-group input,
+        .modal-form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
         .modal-submit-btn {
-            width: 100%; padding: 15px; background: #24b64a; color: #fff; border: none; border-radius: 8px;
-            font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 1rem;
+            width: 100%;
+            padding: 15px;
+            background: #24b64a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1rem;
         }
-        .modal-submit-btn:hover { background: #1a8e38; }
+
+        .modal-submit-btn:hover {
+            background: #1a8e38;
+        }
     </style>
