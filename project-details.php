@@ -236,6 +236,7 @@ $gallery = json_decode($project['gallery'], true);
                             </div>
                             +91 93152 33826
                         </a>
+                        <br>
                         <a href="tel:+919811277779">
                             <div class="animated-call-icon">
                                 <i class="fas fa-phone-alt"></i>
