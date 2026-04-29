@@ -34,6 +34,8 @@ include 'includes/header.php';
                     <div class="info-text">
                         <h4>Call Us</h4>
                         <a href="tel:+919315233826">+91 93152 33826</a>
+                        <br>
+                        <a href="tel:+919811277779">+91 98112 77779</a>
                     </div>
                 </div>
 

@@ -78,6 +78,8 @@
                         <div class="info-text">
                             <strong>Phone:</strong>
                             <span>+91 93152 33826</span>
+                            <br> 
+                            <span>+91 98112 77779</span>
                         </div>
                     </li>
                     <li>
