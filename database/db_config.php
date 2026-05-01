@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "sbsmarti_value";
+$username = "mineib_i1_mineib";
 $password = "Rd14072003@./";
-$dbname = "sbsmarti_value";
+$dbname = "mineib_i1_valuegain";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
