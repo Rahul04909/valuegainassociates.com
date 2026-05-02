@@ -10,26 +10,26 @@
     </title>
     <meta name="description"
         content="<?= !empty($meta_description) ? htmlspecialchars($meta_description) : "Valugain Associates offers premium real estate services. Find your dream property with us today." ?>">
-        <?php if (!empty($meta_keywords)): ?>
+    <?php if (!empty($meta_keywords)): ?>
         <meta name="keywords" content="<?= htmlspecialchars($meta_keywords) ?>">
     <?php endif; ?>
 
     <!-- Open Graph (OG) Information -->
-      <?php if (!empty($og_title)): ?>
+    <?php if (!empty($og_title)): ?>
         <meta property="og:title" content="<?= htmlspecialchars($og_title) ?>" />
     <?php endif; ?>
-      <?php if (!empty($og_description)): ?>
+    <?php if (!empty($og_description)): ?>
         <meta property="og:description" content="<?= htmlspecialchars($og_description) ?>" />
     <?php endif; ?>
-     <?php if (!empty($og_image)): ?>
+    <?php if (!empty($og_image)): ?>
         <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>" />
     <?php endif; ?>
 
     <!-- Schema Markup -->
-        <?php if (!empty($schema_markup)): ?>
+    <?php if (!empty($schema_markup)): ?>
         <script type="application/ld+json">
-                        <?= $schema_markup ?>
-                        </script>
+                                                                <?= $schema_markup ?>
+                                                                </script>
     <?php endif; ?>
 
     <!-- Swiper CSS -->
@@ -67,7 +67,7 @@
                     <i class="fas fa-envelope"></i>
                     <span>info@valugainassociates.com</span>
                 </a>
-                <a href="tel:+919876543210" class="top-info">
+                <a href="tel:+919315233826" class="top-info">
                     <i class="fas fa-phone-alt"></i>
                     <span>+91 93152 33826</span>
                     <span>+91 98112 77779</span>
@@ -102,9 +102,9 @@
                 <nav class="nav-menu">
                     <ul>
                         <li><a href="index.php">Home</a></li>
-                        <li><a href="about.php">About-Us</a></li>
-                        <li><a href="contact.php">Contact</a></li>
+                        <li><a href="about.php">About Us</a></li>
                         <li><a href="projects.php">Projects</a></li>
+                        <li><a href="contact.php">Contact</a></li>
                     </ul>
                 </nav>
 
