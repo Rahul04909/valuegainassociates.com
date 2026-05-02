@@ -1,7 +1,7 @@
-<?php 
+<?php
 $page_title = "About Us - Value Gain Associates";
 $meta_description = "Learn more about Value Gain Associates, the most trusted real estate agency with over 15 years of experience in premium property solutions.";
-include 'includes/header.php'; 
+include 'includes/header.php';
 ?>
 
 <!-- About Page Hero -->
@@ -16,24 +16,34 @@ include 'includes/header.php';
     <div class="container">
         <div class="about-page-grid">
             <div class="about-image">
-                <img src="assets/images/about.png" alt="Value Gain Associates" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+                <img src="assets/images/about.png" alt="Value Gain Associates"
+                    style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
             </div>
             <div class="about-page-content">
-                <h6 class="subtitle" style="color: #007bff; font-weight: 600; text-transform: uppercase; margin-bottom: 15px; display: block;">Who We Are</h6>
-                <h2>We Are The Most Trusted <span>Real Estate</span> Agency Since 2008</h2>
-                <p>Value Gain Associates has been a cornerstone of the Indian real estate landscape for nearly two decades. Founded on the principles of integrity, transparency, and excellence, we have successfully guided thousands of families and businesses to their perfect properties.</p>
-                <p>Our expertise spans across luxury residential villas, high-rise apartments, and strategic commercial spaces. We don't just sell properties; we build lasting relationships by ensuring that every investment our clients make is a step towards a more prosperous future.</p>
-                
+                <h6 class="subtitle"
+                    style="color: #007bff; font-weight: 600; text-transform: uppercase; margin-bottom: 15px; display: block;">
+                    Who We Are</h6>
+                <h2>We Are The Most Trusted <span>Real Estate</span> Agency Since 2018</h2>
+                <p>Value Gain Associates has been a cornerstone of the Indian real estate landscape for nearly two
+                    decades. Founded on the principles of integrity, transparency, and excellence, we have successfully
+                    guided thousands of families and businesses to their perfect properties.</p>
+                <p>Our expertise spans across luxury residential villas, high-rise apartments, and strategic commercial
+                    spaces. We don't just sell properties; we build lasting relationships by ensuring that every
+                    investment our clients make is a step towards a more prosperous future.</p>
+
                 <div class="about-features" style="margin-top: 30px;">
-                    <div class="feature-item" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                    <div class="feature-item"
+                        style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-check-circle" style="color: #007bff;"></i>
                         <span style="font-weight: 500;">Direct Developer Tie-ups</span>
                     </div>
-                    <div class="feature-item" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                    <div class="feature-item"
+                        style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-check-circle" style="color: #007bff;"></i>
                         <span style="font-weight: 500;">Zero Brokerage on New Projects</span>
                     </div>
-                    <div class="feature-item" style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                    <div class="feature-item"
+                        style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
                         <i class="fas fa-check-circle" style="color: #007bff;"></i>
                         <span style="font-weight: 500;">Post-Purchase Property Management</span>
                     </div>
@@ -50,12 +60,14 @@ include 'includes/header.php';
             <div class="vm-card square-card">
                 <i class="fas fa-eye"></i>
                 <h3>Our Vision</h3>
-                <p>To be the premier real estate consultancy in India, recognized globally for setting benchmarks in customer satisfaction and ethical business practices.</p>
+                <p>To be the premier real estate consultancy in India, recognized globally for setting benchmarks in
+                    customer satisfaction and ethical business practices.</p>
             </div>
             <div class="vm-card square-card">
                 <i class="fas fa-bullseye"></i>
                 <h3>Our Mission</h3>
-                <p>To empower our clients with data-driven insights and personalized service, making property acquisition a seamless and rewarding experience for everyone.</p>
+                <p>To empower our clients with data-driven insights and personalized service, making property
+                    acquisition a seamless and rewarding experience for everyone.</p>
             </div>
         </div>
     </div>

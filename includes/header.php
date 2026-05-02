@@ -5,31 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        
+
         <?= !empty($page_title) ? htmlspecialchars($page_title) : "Valugain Associates - Premium Real Estate Services" ?>
     </title>
     <meta name="description"
         content="<?= !empty($meta_description) ? htmlspecialchars($meta_description) : "Valugain Associates offers premium real estate services. Find your dream property with us today." ?>">
-<?php if (!empty($meta_keywords)): ?>
-            <meta name="keywords" content="<?= htmlspecialchars($meta_keywords) ?>">
+        <?php if (!empty($meta_keywords)): ?>
+        <meta name="keywords" content="<?= htmlspecialchars($meta_keywords) ?>">
     <?php endif; ?>
 
     <!-- Open Graph (OG) Information -->
-  <?php if (!empty($og_title)): ?>
-            <meta property="og:title" content="<?= htmlspecialchars($og_title) ?>" />
+      <?php if (!empty($og_title)): ?>
+        <meta property="og:title" content="<?= htmlspecialchars($og_title) ?>" />
     <?php endif; ?>
-  <?php if (!empty($og_description)): ?>
-            <meta property="og:description" content="<?= htmlspecialchars($og_description) ?>" />
+      <?php if (!empty($og_description)): ?>
+        <meta property="og:description" content="<?= htmlspecialchars($og_description) ?>" />
     <?php endif; ?>
-   <?php if (!empty($og_image)): ?>
-            <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>" />
+     <?php if (!empty($og_image)): ?>
+        <meta property="og:image" content="<?= htmlspecialchars($og_image) ?>" />
     <?php endif; ?>
 
     <!-- Schema Markup -->
-<?php if (!empty($schema_markup)): ?>
-            <script type="application/ld+json">
-            <?= $schema_markup ?>
-            </script>
+        <?php if (!empty($schema_markup)): ?>
+        <script type="application/ld+json">
+                        <?= $schema_markup ?>
+                        </script>
     <?php endif; ?>
 
     <!-- Swiper CSS -->
@@ -102,7 +102,7 @@
                 <nav class="nav-menu">
                     <ul>
                         <li><a href="index.php">Home</a></li>
-                        <li><a href="about.php">About</a></li>
+                        <li><a href="about.php">About-Us</a></li>
                         <li><a href="contact.php">Contact</a></li>
                         <li><a href="projects.php">Projects</a></li>
                     </ul>
