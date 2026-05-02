@@ -1,59 +1,83 @@
 /* Hero Section Styles */
 .hero-section {
     width: 100%;
-    height: calc(100vh - 120px);
     position: relative;
     overflow: hidden;
-    background-color: #000;
+    background-color: #f8fafc;
 }
 
 .hero-swiper {
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
-.slide-bg {
+.hero-img {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    /* Removed Zoom Effect for Professionalism */
-    will-change: transform;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Desktop Sizing (Auto-fit to container) */
+@media (min-width: 769px) {
+    .hero-section {
+        height: 600px; /* Fixed height for desktop elegance */
+    }
+    .hero-img {
+        height: 600px;
+    }
 }
 
 /* Custom Swiper Controls */
+/* Custom Swiper Controls */
 .swiper-button-next, .swiper-button-prev {
     color: var(--white);
-    background: rgba(0, 0, 0, 0.2);
-    width: 50px;
-    height: 50px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     transition: var(--transition);
 }
 
 .swiper-button-next:after, .swiper-button-prev:after {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
 }
 
 .swiper-button-next:hover, .swiper-button-prev:hover {
     background: var(--primary-color);
+    color: #fff;
 }
 
-/* Mobile Responsive Adjustments (Professional Fit) */
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--primary-color);
+    opacity: 1;
+    width: 25px;
+    border-radius: 5px;
+}
+
+/* Mobile Responsive Adjustments (Ecommerce Style) */
 @media (max-width: 768px) {
     .hero-section {
-        height: 45vh; /* Reduced height to fit perfectly without extra space */
-        min-height: 300px;
+        height: auto;
     }
     
-    .slide-bg {
-        background-size: cover; /* Cover for professional real estate feel */
-        background-position: center center;
+    .hero-img {
+        height: auto;
+        aspect-ratio: 16 / 9; /* Perfect mobile banner ratio */
+        object-fit: cover;
     }
 
-    .swiper-button-next, .swiper-button-prev {
-        display: none;
+    .swiper-pagination {
+        bottom: 10px !important;
     }
 }

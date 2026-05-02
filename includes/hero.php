@@ -4,20 +4,33 @@
         <div class="swiper-wrapper">
             <!-- Slide 1 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-banner-2.jpeg');" aria-label="Hero Banner 1"></div>
+                <picture>
+                    <!-- Mobile Image -->
+                    <source media="(max-width: 768px)" srcset="assets/images/hero-banner-2.jpeg">
+                    <!-- Desktop Image -->
+                    <img src="assets/images/hero-banner-2.jpeg" alt="Premium Real Estate Banner 1" class="hero-img">
+                </picture>
             </div>
             <!-- Slide 2 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-banner.jpeg');" aria-label="Hero Banner 2"></div>
+                <picture>
+                    <source media="(max-width: 768px)" srcset="assets/images/hero-banner.jpeg">
+                    <img src="assets/images/hero-banner.jpeg" alt="Premium Real Estate Banner 2" class="hero-img">
+                </picture>
             </div>
             <!-- Slide 3 -->
             <div class="swiper-slide">
-                <div class="slide-bg" style="background-image: url('assets/images/hero-banner-1.jpeg');" aria-label="Hero Banner 3"></div>
+                <picture>
+                    <source media="(max-width: 768px)" srcset="assets/images/hero-banner-1.jpeg">
+                    <img src="assets/images/hero-banner-1.jpeg" alt="Premium Real Estate Banner 3" class="hero-img">
+                </picture>
             </div>
         </div>
-        <!-- Add Navigation -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <!-- Add Navigation (Hidden on Mobile) -->
+        <div class="swiper-button-next d-none d-md-flex"></div>
+        <div class="swiper-button-prev d-none d-md-flex"></div>
+        <!-- Add Pagination (Ecommerce Style Dots) -->
+        <div class="swiper-pagination"></div>
     </div>
 </section>
 
@@ -29,16 +42,18 @@
     const swiper = new Swiper('.hero-swiper', {
         loop: true,
         autoplay: {
-            delay: 5000,
+            delay: 4000,
             disableOnInteraction: false,
         },
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
         },
+        speed: 800,
+        grabCursor: true,
     });
 </script>
