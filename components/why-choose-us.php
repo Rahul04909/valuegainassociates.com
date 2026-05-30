@@ -16,7 +16,7 @@
                     <div class="timeline-card-wrapper">
                         <div class="timeline-card card-accent-orange">
                             <span class="badge-year">2018</span>
-                            <h3>Foundation of Kavya Prop</h3>
+                            <h3>Foundation of Value Gain</h3>
                             <p>Started real estate advisory services at Shubham Tower in NIT Faridabad, catering to strategic Delhi-NCR corridors.</p>
                         </div>
                     </div>
