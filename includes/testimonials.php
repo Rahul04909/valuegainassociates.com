@@ -80,7 +80,7 @@ $testimonials = [
 
                 <!-- Designation -->
                 <div class="testimonial-designation">
-                    Designation: <?= htmlspecialchars($t['role']) ?>
+                    <?= htmlspecialchars($t['role']) ?>
                 </div>
 
                 <!-- Dots Separator -->
