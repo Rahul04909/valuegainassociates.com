@@ -69,7 +69,7 @@
                 </a>
                 <a href="tel:+919315233826" class="top-info">
                     <i class="fas fa-phone-alt"></i>
-                    <span>+91 93152 33826</span>
+                    <span>+91 93152 32386</span>
                     <span>+91 98112 77779</span>
                 </a>
             </div>
