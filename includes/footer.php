@@ -77,7 +77,7 @@
                         <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                         <div class="info-text">
                             <strong>Phone:</strong>
-                            <span>+91 93152 33826</span>
+                            <span>+91 93152 32386</span>
                             <br> 
                             <span>+91 98112 77779</span>
                         </div>
